@@ -16,6 +16,8 @@ public class TextProcessing {
 	private String name;
 	int zeilenZähler = 0;
 	ArrayList zeilen = new ArrayList();
+	ArrayList wörter = new ArrayList();
+	ArrayList <ArrayList>text = new ArrayList();
 	
 	public TextProcessing (String textname, String e, String f){
 		this.name = textname + "." + f + ".txt";
@@ -31,10 +33,23 @@ public class TextProcessing {
 			e1.printStackTrace();
 		}
 		read(read);
-		for(int i=0; i<=zeilen.size(); i++){
-			System.out.println(zeilen.get(i));
+		for(int i=0; i<=text.size(); i++){
+			System.out.println(text.get(i).get(0));
 		}
 		
+	}
+	
+	public void readLine(FileReader file){
+		try {
+			BufferedReader in = new BufferedReader(file);
+			String zeile = null;
+			while ((zeile = in.readLine()) != null) {
+				zeilen.add(zeilenZähler, zeile);
+				zeilenZähler++;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void read(FileReader file){
@@ -42,7 +57,9 @@ public class TextProcessing {
 			BufferedReader in = new BufferedReader(file);
 			String zeile = null;
 			while ((zeile = in.readLine()) != null) {
-				zeilen.add(zeilenZähler, zeile);
+				wörter.add(zeilenZähler, zeile.split(" "));
+				text.add(zeilenZähler, wörter);
+				wörter = new ArrayList();
 				zeilenZähler++;
 			}
 		} catch (IOException e) {

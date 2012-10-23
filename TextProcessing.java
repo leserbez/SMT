@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 
 
 public class TextProcessing {
@@ -13,13 +14,15 @@ public class TextProcessing {
 	private File textE;
 	private URL urlF;
 	private String name;
+	int zeilenZähler = 0;
+	ArrayList zeilen = new ArrayList();
 	
 	public TextProcessing (String textname, String e, String f){
 		this.name = textname + "." + f + ".txt";
 		
 		urlF = getClass().getClassLoader().getResource(name);
 		System.out.println(urlF);
-		textF = new File(urlF.getPath());
+		textF = new File("c:/train.de.txt");
 		FileReader read = null;
 		try {
 			read = new FileReader(textF);
@@ -28,6 +31,9 @@ public class TextProcessing {
 			e1.printStackTrace();
 		}
 		read(read);
+		for(int i=0; i<=zeilen.size(); i++){
+			System.out.println(zeilen.get(i));
+		}
 		
 	}
 	
@@ -36,7 +42,8 @@ public class TextProcessing {
 			BufferedReader in = new BufferedReader(file);
 			String zeile = null;
 			while ((zeile = in.readLine()) != null) {
-				System.out.println("Gelesene Zeile: " + zeile);
+				zeilen.add(zeilenZähler, zeile);
+				zeilenZähler++;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

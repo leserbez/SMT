@@ -15,16 +15,18 @@ public class TextProcessing {
 	private URL urlF;
 	private String name;
 	int zeilenZähler = 0;
+	int wortzähler = 0;
+	String[] wort;
 	ArrayList zeilen = new ArrayList();
 	ArrayList wörter = new ArrayList();
-	ArrayList <ArrayList>text = new ArrayList();
+	ArrayList text = new ArrayList();
 	
 	public TextProcessing (String textname, String e, String f){
 		this.name = textname + "." + f + ".txt";
 		
 		urlF = getClass().getClassLoader().getResource(name);
 		System.out.println(urlF);
-		textF = new File("c:/train.de.txt");
+		textF = new File("c:/Users/Lulu/train.de.txt");
 		FileReader read = null;
 		try {
 			read = new FileReader(textF);
@@ -32,10 +34,15 @@ public class TextProcessing {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		read(read);
-		for(int i=0; i<=text.size(); i++){
-			System.out.println(text.get(i).get(0));
+		readLine(read);
+		for(int i=0; i<wörter.size(); i++){
+				
+			System.out.println(wörter.get(i));
 		}
+		for(int i=0; i<wort.length; i++){
+			System.out.println(wort[i]);
+		}
+		System.out.println(text.get(0));
 		
 	}
 	
@@ -44,7 +51,14 @@ public class TextProcessing {
 			BufferedReader in = new BufferedReader(file);
 			String zeile = null;
 			while ((zeile = in.readLine()) != null) {
-				zeilen.add(zeilenZähler, zeile);
+				zeilen.add(zeilenZähler, zeile);	//einzelne Zeilen
+				wort = zeile.split(" ");			//Array mit Wörtern einer Zeile
+				
+				for(int i=0; i<wort.length; i++){	//alle Wörter des Textes
+				wörter.add(wort[i]);
+				}
+				text.add(wörter);
+				wörter=new ArrayList();
 				zeilenZähler++;
 			}
 		} catch (IOException e) {
@@ -57,9 +71,9 @@ public class TextProcessing {
 			BufferedReader in = new BufferedReader(file);
 			String zeile = null;
 			while ((zeile = in.readLine()) != null) {
-				wörter.add(zeilenZähler, zeile.split(" "));
-				text.add(zeilenZähler, wörter);
-				wörter = new ArrayList();
+				
+				
+				
 				zeilenZähler++;
 			}
 		} catch (IOException e) {

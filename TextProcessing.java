@@ -15,11 +15,12 @@ public class TextProcessing {
 	private URL urlF;
 	private String name;
 	int zeilenZähler = 0;
-	int wortzähler = 0;
 	String[] wort;
 	ArrayList zeilen = new ArrayList();
 	ArrayList wörter = new ArrayList();
-	ArrayList text = new ArrayList();
+	ArrayList textFrench = new ArrayList();
+	ArrayList textEnglish = new ArrayList();
+	
 	
 	public TextProcessing (String textname, String e, String f){
 		this.name = textname + "." + f + ".txt";
@@ -27,26 +28,28 @@ public class TextProcessing {
 		urlF = getClass().getClassLoader().getResource(name);
 		System.out.println(urlF);
 		textF = new File("c:/Users/Lulu/train.de.txt");
-		FileReader read = null;
+		textE = new File("c:/Users/Lulu/train.en.txt");
+		FileReader readF = null;
+		FileReader readE = null;
 		try {
-			read = new FileReader(textF);
+			readF = new FileReader(textF);
+			readE = new FileReader(textE);
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		readLine(read);
-		for(int i=0; i<wörter.size(); i++){
-				
-			System.out.println(wörter.get(i));
+		readLine(readF, textFrench);
+		zeilenZähler = 0;						// wieder auf 0 setzen
+		readLine(readE, textEnglish);
+		
+		for(int i=0; i<textFrench.size(); i++){
+		System.out.println(textFrench.get(i));
+		System.out.println(textEnglish.get(i));
 		}
-		for(int i=0; i<wort.length; i++){
-			System.out.println(wort[i]);
-		}
-		System.out.println(text.get(0));
 		
 	}
 	
-	public void readLine(FileReader file){
+	public void readLine(FileReader file, ArrayList list){
 		try {
 			BufferedReader in = new BufferedReader(file);
 			String zeile = null;
@@ -57,8 +60,9 @@ public class TextProcessing {
 				for(int i=0; i<wort.length; i++){	//alle Wörter des Textes
 				wörter.add(wort[i]);
 				}
-				text.add(wörter);
-				wörter=new ArrayList();
+				
+				list.add(wörter);					//ArrayList mit Arrays, die Wörter pro Zeile beinhalten
+				wörter=new ArrayList();				//leeren
 				zeilenZähler++;
 			}
 		} catch (IOException e) {
@@ -66,20 +70,8 @@ public class TextProcessing {
 		}
 	}
 	
-	public void read(FileReader file){
-		try {
-			BufferedReader in = new BufferedReader(file);
-			String zeile = null;
-			while ((zeile = in.readLine()) != null) {
-				
-				
-				
-				zeilenZähler++;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	
+	
 	
 	public File getTextF() {
 		return textF;

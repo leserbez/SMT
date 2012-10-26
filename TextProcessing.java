@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TextProcessing {
@@ -15,11 +16,15 @@ public class TextProcessing {
 	private URL urlF;
 	private String name;
 	int zeilenZähler = 0;
+	int wortZähler=0;
 	String[] wort;
-	ArrayList zeilen = new ArrayList();
-	ArrayList wörter = new ArrayList();
-	ArrayList textFrench = new ArrayList();
-	ArrayList textEnglish = new ArrayList();
+	List zeilen = new ArrayList();
+	List<String> wörter = new ArrayList<String>();
+	List<ArrayList<String>> textFrench = new ArrayList<ArrayList<String>>();
+	List<ArrayList<String>> textEnglish = new ArrayList<ArrayList<String>>();
+	
+	List<String> wörterListeF = new ArrayList<String>();
+	List<String> wörterListeE = new ArrayList<String>();
 	
 	
 	public TextProcessing (String textname, String e, String f){
@@ -46,10 +51,16 @@ public class TextProcessing {
 		System.out.println(textFrench.get(i));
 		System.out.println(textEnglish.get(i));
 		}
+		//System.out.println(textFrench.get(0).get(0));
+		
+		sortWords(textFrench, wörterListeF);
+		
+		//System.out.println(wörterListeF.get(0).get(0));
+		
 		
 	}
 	
-	public void readLine(FileReader file, ArrayList list){
+	public void readLine(FileReader file, List textFrench2){
 		try {
 			BufferedReader in = new BufferedReader(file);
 			String zeile = null;
@@ -61,13 +72,38 @@ public class TextProcessing {
 				wörter.add(wort[i]);
 				}
 				
-				list.add(wörter);					//ArrayList mit Arrays, die Wörter pro Zeile beinhalten
+				textFrench2.add(wörter);					//ArrayList mit Arrays, die Wörter pro Zeile beinhalten
 				wörter=new ArrayList();				//leeren
 				zeilenZähler++;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	
+	public void sortWords(List<ArrayList<String>> text, List<String> wörter){
+		for(int b=0; b<=wortZähler; b++){
+		if((wörter.size()==0) || (wörter.size()>b)){
+		for(int i=0; i<text.size(); i++){
+			
+			for(int a=0; a<text.get(i).size(); a++){
+				
+				
+					
+				//	if(!(text.get(i).get(a).equals(wörter.get(b)))) {
+					
+					wörter.add(text.get(i).get(a));
+					System.out.println(text.get(i).get(a));
+					System.out.println(wörter.get(b));
+						
+						wortZähler++;
+				//	}
+				}}
+			}
+		}
+		System.out.println(wörter.get(3));
 	}
 	
 	

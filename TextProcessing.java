@@ -103,7 +103,7 @@ public class TextProcessing {
 				}}
 			}
 		}
-		System.out.println(wörter.get(3));
+		System.out.println("blaaaaaaaaaaaaaaa");
 	}
 	
 	

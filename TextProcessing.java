@@ -54,6 +54,9 @@ public class TextProcessing {
 		//System.out.println(textFrench.get(0).get(0));
 		
 		sortWords(textFrench, wörterListeF);
+		for(int a=0; a<wörterListeF.size(); a++){
+			System.out.println(wörterListeF.get(a));
+		}
 		
 		//System.out.println(wörterListeF.get(0).get(0));
 		
@@ -84,27 +87,23 @@ public class TextProcessing {
 	
 	
 	public void sortWords(List<ArrayList<String>> text, List<String> wörter){
-		for(int b=0; b<=wortZähler; b++){
-		if((wörter.size()==0) || (wörter.size()>b)){
-		for(int i=0; i<text.size(); i++){
-			
-			for(int a=0; a<text.get(i).size(); a++){
-				
-				
-					
-				//	if(!(text.get(i).get(a).equals(wörter.get(b)))) {
-					
-					wörter.add(text.get(i).get(a));
-					System.out.println(text.get(i).get(a));
-					System.out.println(wörter.get(b));
-						
-						wortZähler++;
-				//	}
-				}}
+		wörter.add(0, text.get(0).get(0));
+		int worte=0;
+		
+		for(int a=0; a<text.size(); a++){
+			//System.out.println("a="+a);
+			for(int b=0; b<text.get(a).size(); b++){
+				//System.out.println("b="+ b);
+					wörter.add(worte, text.get(a).get(b));
+					worte++;
+				}
 			}
 		}
-		System.out.println("blaaaaaaaaaaaaaaa");
+	
+	public List<String> removeEqualWords(List<String> wörter){
+		return wörter;
 	}
+		
 	
 	
 	

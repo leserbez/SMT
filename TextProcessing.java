@@ -26,6 +26,9 @@ public class TextProcessing {
 	List<String> wörterListeF = new ArrayList<String>();
 	List<String> wörterListeE = new ArrayList<String>();
 	
+	List<String> einfachListeF = new ArrayList<String>();
+	List<String> einfachListeE = new ArrayList<String>();
+	
 	
 	public TextProcessing (String textname, String e, String f){
 		this.name = textname + "." + f + ".txt";
@@ -47,19 +50,35 @@ public class TextProcessing {
 		zeilenZähler = 0;						// wieder auf 0 setzen
 		readLine(readE, textEnglish);
 		
-		for(int i=0; i<textFrench.size(); i++){
-		System.out.println(textFrench.get(i));
-		System.out.println(textEnglish.get(i));
-		}
+//		for(int i=0; i<textFrench.size(); i++){
+//		System.out.println(textFrench.get(i));
+//		System.out.println(textEnglish.get(i));
+//		}
 		//System.out.println(textFrench.get(0).get(0));
 		
 		sortWords(textFrench, wörterListeF);
-		for(int a=0; a<wörterListeF.size(); a++){
-			System.out.println(wörterListeF.get(a));
+		sortWords(textEnglish, wörterListeE);
+//		for(int a=0; a<wörterListeF.size(); a++){
+//			System.out.println(wörterListeF.get(a));
+//		}
+		
+		listWords(textFrench, einfachListeF);
+		listWords(textEnglish, einfachListeE);
+		for(int i=0; i<einfachListeF.size(); i++){
+			System.out.println(einfachListeF.get(i));
 		}
+		Dictionary dict = new Dictionary(einfachListeF, einfachListeE, textFrench, textEnglish);
+		System.out.println(dict.f);
+		System.out.println(einfachListeE.size());
 		
 		//System.out.println(wörterListeF.get(0).get(0));
+		LengthModel length = new LengthModel(textFrench, textEnglish);
+//		System.out.println(length.maxSize);
+//		System.out.println(length.minSize);
+//		System.out.println(length.factoring(5, 5));
 		
+		BigramModel bigram = new BigramModel(wörterListeF);
+		System.out.println(bigram.train("es", "ist"));
 		
 	}
 	
@@ -84,7 +103,15 @@ public class TextProcessing {
 		}
 	}
 	
-	
+	public void listWords(List<ArrayList<String>> text, List<String> wörter){
+		for(int i=0; i<text.size(); i++){
+			for(int a=0; a<text.get(i).size(); a++){
+				if(!(wörter.contains(text.get(i).get(a)))){
+					wörter.add(text.get(i).get(a));
+				}
+			}
+		}
+	}
 	
 	public void sortWords(List<ArrayList<String>> text, List<String> wörter){
 		wörter.add(0, text.get(0).get(0));
@@ -98,11 +125,30 @@ public class TextProcessing {
 					worte++;
 				}
 			}
+		System.out.println(wörter.size());
+		//removeEqualWords(wörter);
 		}
 	
-	public List<String> removeEqualWords(List<String> wörter){
-		return wörter;
-	}
+//	public List<String> removeEqualWords(List<String> wörter){
+//		for(int a=1; a<wörter.size(); a++){
+//			for(int b=0; b<a; b++){
+//				if(wörter.get(b).equals(wörter.get(a))){
+//					System.out.println(b);
+//					wörter.remove(a);
+//				}
+//				System.out.println("b="+b);
+//			}
+//			System.out.println("a="+a);
+//			System.out.println(wörter.size());
+//		}
+//		return wörter;
+//		
+//		int a=1;
+//		int b=0;
+//		while(a>b){
+//			
+//		}
+//	}
 		
 	
 	

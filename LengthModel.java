@@ -4,10 +4,11 @@ import java.util.List;
 
 public class LengthModel {
 	
-	float factor;
+	//float factor;
 	List<ArrayList<String>> textFrench = new ArrayList<ArrayList<String>>();
 	List<ArrayList<String>> textEnglish = new ArrayList<ArrayList<String>>();
 	int maxSize=0;
+	int minSize=20;
 
 	public LengthModel(List<ArrayList<String>> textF, List<ArrayList<String>> textE){
 		textFrench=textF;
@@ -21,6 +22,30 @@ public class LengthModel {
 				maxSize=textFrench.get(i).size();
 			}
 		}
+		for(int i=0; i<textFrench.size(); i++){
+			if(minSize>textFrench.get(i).size()){
+				minSize=textFrench.get(i).size();
+			}
+		}
+	}
+	
+	public float factoring(int m, int l){
+		float factor;
+		int zählerML=0;
+		int zählerL=0;
+		for(int i=0; i<textFrench.size(); i++){
+			if((textFrench.get(i).size()==m)&&(textEnglish.get(i).size()==l)){
+				zählerML++;
+			}
+		}
+		for(int i=0; i<textFrench.size(); i++){
+			if(textEnglish.get(i).size()==l){
+				zählerL++;
+			}
+		}
+		factor=zählerML;
+		factor=factor/zählerL;
+		return factor;
 	}
  
 }

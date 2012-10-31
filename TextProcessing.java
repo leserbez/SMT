@@ -35,8 +35,8 @@ public class TextProcessing {
 		
 		urlF = getClass().getClassLoader().getResource(name);
 		System.out.println(urlF);
-		textF = new File("c:/Users/Lulu/train.de.txt");
-		textE = new File("c:/Users/Lulu/train.en.txt");
+		textF = new File("c:/Users/Lulu/beispiel.de.txt");
+		textE = new File("c:/Users/Lulu/beispiel.en.txt");
 		FileReader readF = null;
 		FileReader readE = null;
 		try {
@@ -68,8 +68,8 @@ public class TextProcessing {
 			System.out.println(einfachListeF.get(i));
 		}
 		Dictionary dict = new Dictionary(einfachListeF, einfachListeE, textFrench, textEnglish);
-		System.out.println(dict.f);
-		System.out.println(einfachListeE.size());
+//		System.out.println(dict.f);
+//		System.out.println(einfachListeE.size());
 		
 		//System.out.println(wörterListeF.get(0).get(0));
 		LengthModel length = new LengthModel(textFrench, textEnglish);

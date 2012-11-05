@@ -1,3 +1,6 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,38 +9,38 @@ import java.util.List;
 public class Dictionary {
 	
 	List<ArrayList<Float>> tabelle = new ArrayList<ArrayList<Float>>();
-	List<ArrayList<String>> textFrench = new ArrayList<ArrayList<String>>();
-	List<ArrayList<String>> textEnglish = new ArrayList<ArrayList<String>>();
-	List<String> wörterF = new ArrayList<String>();
-	List<String> wörterE = new ArrayList<String>();
+	List<ArrayList<Integer>> textFrench = new ArrayList<ArrayList<Integer>>();
+	List<ArrayList<Integer>> textEnglish = new ArrayList<ArrayList<Integer>>();
+	List<Integer> wörterF = new ArrayList<Integer>();
+	List<Integer> wörterE = new ArrayList<Integer>();
+	List<String> wörterListeF = new ArrayList<String>();
+	List<String> wörterListeE = new ArrayList<String>();
 	Float f=(float) 1;
 	
-	public Dictionary(List<String> wörterF, List<String> wörterE, List<ArrayList<String>> textFrench, List<ArrayList<String>> textEnglish){
-		this.wörterF=wörterF;
-		this.wörterE=wörterE;
+	public Dictionary(List<Integer> kwörterF, List<Integer> kwörterE, List<ArrayList<Integer>> textFrench, List<ArrayList<Integer>> textEnglish, List<String> wörterF, List<String> wörterE){
+		this.wörterF=kwörterF;
+		this.wörterE=kwörterE;
 		this.textFrench=textFrench;
 		this.textEnglish=textEnglish;
+		this.wörterListeF = wörterF;
+		this.wörterListeE = wörterE;
 		f=f/wörterF.size();
-		System.out.println(wörterF.get(1));
+		System.out.println(textFrench.size());
 		erstelleTabelle();
-		System.out.println(tabelle.get(0));
-		System.out.println(tabelle.get(1));
-		berechnen();
-		System.out.println("Tabelle:");
-		System.out.println(tabelle.get(0));
-		System.out.println(tabelle.get(1));
-		normalisieren();
-		System.out.println("Tabelle:");
-		System.out.println(tabelle.get(0));
-		System.out.println(tabelle.get(1));
-		berechnen();
-		System.out.println("Tabelle:");
-		System.out.println(tabelle.get(0));
-		System.out.println(tabelle.get(1));
-		normalisieren();
-		System.out.println("Tabelle:");
-		System.out.println(tabelle.get(0));
-		System.out.println(tabelle.get(1));
+		System.out.println("tabelle erstellt");
+		
+		for(int i=0; i<=30; i++){
+		train(i);
+		}
+		
+//		for(int i=0; i<tabelle.size(); i++){
+//		System.out.println(tabelle.get(i).get(wörterF.indexOf("sollten")));
+//		}
+//		for(int i=0; i<tabelle.size(); i++){
+//			System.out.println(tabelle.get(i));
+//		}
+		
+	    
 	}
 	
 	public void erstelleTabelle(){
@@ -49,9 +52,25 @@ public class Dictionary {
 		}
 	}
 	
-	public void train(){
+	public void train(int f){
 		berechnen();
+		System.out.println("berechnet");
 		normalisieren();
+		
+		try {
+	        PrintWriter p = new PrintWriter (new FileWriter("C:/Users/Lulu/ausgabe.txt"));
+	        for (int i = 0; i <wörterF.size(); ++i) {
+	        	for(int a=0; a<wörterE.size(); a++){
+	        		if(tabelle.get(a).get(i)>=0.001){
+	        String  s =wörterListeF.get(i)+" "+wörterListeE.get(a)+" "+tabelle.get(a).get(i);
+	          p.println(s);
+	        }}}
+	        p.close();
+	      }
+	      catch (IOException e) {
+	        System.out.println("Fehler: "+e.toString());
+	      }
+		System.out.println("Training absolviert: "+ f);
 	}
 	
 	public void berechnen(){
@@ -64,41 +83,34 @@ public class Dictionary {
 				tab.get(i).add(a, (float) 0);
 			}
 		}
-	
+	System.out.println("neue tab");
 		Float s=(float) 0;
 		
-		
 		for(int i=0; i<textFrench.size(); i++){					//i für F-Satz
-			System.out.println("neueSchleife");
+		
 			
 			for(int b=0; b<textFrench.get(i).size(); b++){		//b für F-Wort
 			s=(float) 0;
-				
-				
+		
 				for(int a=0; a<textEnglish.get(i).size(); a++){//könnte evt verbessert werden
-					int index = wörterF.indexOf(textFrench.get(i).get(b));
-					System.out.println(index);
-					System.out.println(b);
-					s= s + tabelle.get(wörterE.indexOf(textEnglish.get(i).get(a))).get(index);
+					int index = textFrench.get(i).get(b);
+					s= s + tabelle.get(textEnglish.get(i).get(a)).get(index);
 				}
 				
 				for(int c=0; c<textEnglish.get(i).size(); c++){
-				int zahlF = wörterF.indexOf(textFrench.get(i).get(b));
-				int zahlE = wörterE.indexOf(textEnglish.get(i).get(c));
-				tab.get(wörterE.indexOf(textEnglish.get(i).get(c))).set(zahlF, tab.get(zahlE).get(zahlF) + (tabelle.get(zahlE).get(zahlF)/s));
-				for(int a=0; a<tab.size(); a++){
-					System.out.println(tab.get(a));	
-					}
+				int zahlF = textFrench.get(i).get(b);
+				int zahlE = textEnglish.get(i).get(c);
+				tab.get(textEnglish.get(i).get(c)).set(zahlF, tab.get(zahlE).get(zahlF) + (tabelle.get(zahlE).get(zahlF)/s));
 				}
-			
-			System.out.println(s);
+		
 			
 			}
-			
+			//System.out.println("satz "+i+ " erledigt");
 		}
 //		for(int i=0; i<tab.size(); i++){
 //		System.out.println(tab.get(i));	
 //		}
+		System.out.println("umrechnen beginnt");
 		tabelle = tab;
 		
 	}
@@ -118,9 +130,7 @@ public class Dictionary {
 			}
 			summe=0;
 		}
-		for(int i=0; i<tab.size(); i++){
-			System.out.println(tab.get(i));	
-			}
+		
 		tabelle=tab;
 	}
 	

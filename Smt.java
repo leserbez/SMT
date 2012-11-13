@@ -6,19 +6,19 @@ import java.net.URISyntaxException;
 public class Smt {
 	
 	static String textname;
-	static String f;
-	static String e;
+	static String a;
+	static String b;
 	static String option;
 	File text;
 	
 	public static void main(String[] args) throws IOException {
 		
-		textname = "file";//args[0];
-		e = "a";//args[1];
-		f = "a";//args[2];
-		option ="train";//args[0];
+		textname = args[0];
+		a = args[1];
+		b = args[2];
+		option = args[3];
 		
-		TextProcessing process = new TextProcessing(textname, e, f, option);
+		TextProcessing process = new TextProcessing(textname, a, b, option);
 	
 	}
 

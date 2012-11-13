@@ -15,9 +15,11 @@ public class Dictionary {
 	List<Integer> wörterE = new ArrayList<Integer>();
 	List<String> wörterListeF = new ArrayList<String>();
 	List<String> wörterListeE = new ArrayList<String>();
+	String a;
 	Float f=(float) 1;
 	
-	public Dictionary(List<Integer> kwörterF, List<Integer> kwörterE, List<ArrayList<Integer>> textFrench, List<ArrayList<Integer>> textEnglish, List<String> wörterF, List<String> wörterE){
+	public Dictionary(String a, List<Integer> kwörterF, List<Integer> kwörterE, List<ArrayList<Integer>> textFrench, List<ArrayList<Integer>> textEnglish, List<String> wörterF, List<String> wörterE){
+		this.a = a;
 		this.wörterF=kwörterF;
 		this.wörterE=kwörterE;
 		this.textFrench=textFrench;
@@ -58,11 +60,11 @@ public class Dictionary {
 		normalisieren();
 		
 		try {
-	        PrintWriter p = new PrintWriter (new FileWriter("C:/Users/Lulu/ausgabe.txt"));
+	        PrintWriter p = new PrintWriter (new FileWriter(getClass().getResource("ausgabe."+a+".txt").getPath()));
 	        for (int i = 0; i <wörterF.size(); ++i) {
 	        	for(int a=0; a<wörterE.size(); a++){
 	        		if(tabelle.get(a).get(i)>=0.001){
-	        String  s =wörterListeF.get(i)+" "+wörterListeE.get(a)+" "+tabelle.get(a).get(i);
+	        String  s =wörterListeE.get(a)+" "+wörterListeF.get(i)+" "+tabelle.get(a).get(i);
 	          p.println(s);
 	        }}}
 	        p.close();
@@ -126,7 +128,8 @@ public class Dictionary {
 				summe= summe + tab.get(i).get(a);
 			}
 			for(int b=0; b<tab.get(i).size(); b++){
-				tab.get(i).set(b, (tab.get(i).get(b)/summe));
+				float a =tab.get(i).get(b);
+				tab.get(i).set(b, (a/summe));
 			}
 			summe=0;
 		}

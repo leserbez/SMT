@@ -20,7 +20,8 @@ public class TextProcessing {
 	private File textE;
 	private File ausgabe;
 	private URL urlF;
-	private String name;
+	private String nameF;
+	private String nameE;
 	int zeilenZähler = 0;
 	int wortZähler=0;
 	String[] wort;
@@ -41,15 +42,16 @@ public class TextProcessing {
 	List<Integer> kodeE = new ArrayList<Integer>();
 	
 	
-	public TextProcessing (String textname, String e, String f, String option) throws IOException{
+	public TextProcessing (String textname, String a, String b, String option) throws IOException{
 		
-		this.name = textname + "." + f + ".txt";
+		this.nameF = textname + "." + a + ".txt";
+		this.nameE = textname + "." + b + ".txt";
 		
 		if(option.equals("train")){
 		
 		
-		textF = new File(getClass().getResource("train.de.txt").getPath());
-		textE = new File(getClass().getResource("train.en.txt").getPath());
+		textF = new File(getClass().getResource(nameF).getPath());
+		textE = new File(getClass().getResource(nameE).getPath());
 		FileReader readF = null;
 		FileReader readE = null;
 		try {
@@ -76,7 +78,7 @@ public class TextProcessing {
 		System.out.println("kodiert 1");
 		kode(textEnglish, wörterListeE, kodeE, kodeTextE);
 		System.out.println("kodiert 2");
-		Dictionary dict = new Dictionary(kodeF, kodeE, kodeTextF, kodeTextE, wörterListeF, wörterListeE);
+		Dictionary dict = new Dictionary(a, kodeF, kodeE, kodeTextF, kodeTextE, wörterListeF, wörterListeE);
 		}
 		
 //		
@@ -99,7 +101,7 @@ public class TextProcessing {
 //		System.out.println(dict.f);
 //		System.out.println(einfachListeE.size());
 		if(option.equals("lookup")){
-			URL url =new URL(getClass().getResource("ausgabe.txt").toString());
+			URL url =new URL(getClass().getResource("ausgabe."+a+".txt").toString());
 			ausgabe = new File(url.getPath());
 			FileInputStream fis = new FileInputStream(ausgabe);
 			InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF8"));
@@ -180,6 +182,11 @@ public class TextProcessing {
 		neu2.add(2,null);
 		neu2.add(3,null);
 		neu2.add(4,null);
+		neu2.add(5,null);
+		neu2.add(6,null);
+		neu2.add(7,null);
+		neu2.add(8,null);
+		neu2.add(9,null);
 		for(int i=0; i<array.size(); i++){
 			if(neu.size()>0){
 			if(array.get(i).get(2).equals(neu.get(neu.size()-1).toString())){
@@ -200,6 +207,26 @@ public class TextProcessing {
 			if(neu.size()>4){
 			if(array.get(i).get(2).equals(neu.get(neu.size()-5).toString())){
 				neu2.set(4, array.get(i));
+			}}
+			if(neu.size()>5){
+			if(array.get(i).get(2).equals(neu.get(neu.size()-6).toString())){
+					neu2.set(5, array.get(i));
+			}	}		
+			if(neu.size()>6){
+			if(array.get(i).get(2).equals(neu.get(neu.size()-7).toString())){
+					neu2.set(6, array.get(i));
+			}}			
+			if(neu.size()>7){
+			if(array.get(i).get(2).equals(neu.get(neu.size()-8).toString())){
+					neu2.set(7, array.get(i));
+			}}			
+			if(neu.size()>8){
+			if(array.get(i).get(2).equals(neu.get(neu.size()-9).toString())){
+					neu2.set(8, array.get(i));
+			}}
+			if(neu.size()>9){
+			if(array.get(i).get(2).equals(neu.get(neu.size()-10).toString())){
+					neu2.set(9, array.get(i));
 			}}
 		}
 		return neu2;

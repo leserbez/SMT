@@ -36,8 +36,8 @@ public class TextProcessing {
 	List<String> wörterListeF = new ArrayList<String>();
 	List<String> wörterListeE = new ArrayList<String>();
 	
-	List<String> einfachListeF = new ArrayList<String>();
-	List<String> einfachListeE = new ArrayList<String>();
+	List<String> textListeF = new ArrayList<String>();
+	List<String> textListeE = new ArrayList<String>();
 	List<Integer> kodeF = new ArrayList<Integer>();
 	List<Integer> kodeE = new ArrayList<Integer>();
 	
@@ -65,8 +65,8 @@ public class TextProcessing {
 		zeilenZähler = 0;						// wieder auf 0 setzen
 		readLine(readE, textEnglish);
 		System.out.println("Zeilen gelesen");
-		sortWords(textFrench, wörterListeF);
-		sortWords(textEnglish, wörterListeE);
+		sortWords(textFrench, wörterListeF, textListeF);
+		sortWords(textEnglish, wörterListeE, textListeE);
 		System.out.println("sortieren fertig");
 		for(int i=0; i<wörterListeF.size(); i++){
 			kodeF.add(i,i);
@@ -100,12 +100,22 @@ public class TextProcessing {
 		//
 //		System.out.println(dict.f);
 //		System.out.println(einfachListeE.size());
-		if(option.equals("lookup")){
+		if(option.equals("lookupWord")){
 			URL url =new URL(getClass().getResource("ausgabe."+a+".txt").toString());
 			ausgabe = new File(url.getPath());
 			FileInputStream fis = new FileInputStream(ausgabe);
 			InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF8"));
-			lookUp(isr, ausgabe);
+			LookUpWord look = new LookUpWord(ausgabeList);
+			look.lookUp(isr, ausgabe);
+		}
+		
+		if(option.equals("lookupSentence")){
+			URL url =new URL(getClass().getResource("ausgabe."+a+".txt").toString());
+			ausgabe = new File(url.getPath());
+			FileInputStream fis = new FileInputStream(ausgabe);
+			InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF8"));
+			LookUpSentence look = new LookUpSentence(ausgabeList);
+			look.lookUp(isr, ausgabe);
 		}
 		//System.out.println(wörterListeF.get(0).get(0));
 		LengthModel length = new LengthModel(textFrench, textEnglish);
@@ -113,7 +123,7 @@ public class TextProcessing {
 //		System.out.println(length.minSize);
 //		System.out.println(length.factoring(5, 5));
 		
-		BigramModel bigram = new BigramModel(wörterListeF);
+		BigramModel bigram = new BigramModel(textListeF, wörterListeF);
 		//System.out.println(bigram.train("es", "ist"));
 		
 	}
@@ -130,107 +140,7 @@ public class TextProcessing {
 		}
 	}
 	
-	public void lookUp(InputStreamReader isr2, File ausgabe) throws IOException{
-		readLineAusgabe(isr2, ausgabeList);
-		while(true){
-		InputStreamReader isr = new InputStreamReader(System.in, Charset.forName("UTF8"));
-	    BufferedReader br = new BufferedReader(isr);
-	    System.out.println("Bitte zu übersetzendes Wort eingeben:");
-	    String eingabe = br.readLine();
-	    List<ArrayList<String>> neu=new ArrayList<ArrayList<String>>();
-	    int a =0;
-	    boolean bool = false;
-		for(int i=0; i<ausgabeList.size(); i++){	
-			
-			if (ausgabeList.get(i).get(0).equals(eingabe)){
-				neu.add(new ArrayList());
-				neu.get(a).add(ausgabeList.get(i).get(0));
-				neu.get(a).add(ausgabeList.get(i).get(1));
-				neu.get(a).add(ausgabeList.get(i).get(2));
-				a++;
-				bool = true;
-			}
-		//System.out.println(neu.size());	
-		
-		}
-		if(bool==true){
-		neu = sortArray(neu);
-		for(int i=0; i<neu.size(); i++){
-			if(neu.get(i)!=null){
-			System.out.println(neu.get(i).get(1) +" "+ neu.get(i).get(2));
-		}}}
-		else{
-			System.out.println("Wort unbekannt!");
-		}
-		}
-		//return null;
-	}
 	
-	public List<ArrayList<String>> sortArray(List<ArrayList<String>> array){
-		List<Float> neu = new ArrayList<Float>();
-		for(int i=0; i<array.size(); i++){
-			float f =  Float.valueOf(array.get(i).get(2)).floatValue();
-			neu.add(f);
-		}
-		Collections.sort(neu);
-//		for(int i=0; i<neu.size(); i++){
-//			System.out.println(neu.get(i));
-//		}
-		List<ArrayList<String>> neu2 = new ArrayList<ArrayList<String>>();
-		neu2.add(0,null);
-		neu2.add(1,null);
-		neu2.add(2,null);
-		neu2.add(3,null);
-		neu2.add(4,null);
-		neu2.add(5,null);
-		neu2.add(6,null);
-		neu2.add(7,null);
-		neu2.add(8,null);
-		neu2.add(9,null);
-		for(int i=0; i<array.size(); i++){
-			if(neu.size()>0){
-			if(array.get(i).get(2).equals(neu.get(neu.size()-1).toString())){
-				neu2.set(0, array.get(i));
-			}	}		
-			if(neu.size()>1){
-			if(array.get(i).get(2).equals(neu.get(neu.size()-2).toString())){
-				neu2.set(1, array.get(i));
-			}}			
-			if(neu.size()>2){
-			if(array.get(i).get(2).equals(neu.get(neu.size()-3).toString())){
-				neu2.set(2, array.get(i));
-			}}			
-			if(neu.size()>3){
-			if(array.get(i).get(2).equals(neu.get(neu.size()-4).toString())){
-				neu2.set(3, array.get(i));
-			}}
-			if(neu.size()>4){
-			if(array.get(i).get(2).equals(neu.get(neu.size()-5).toString())){
-				neu2.set(4, array.get(i));
-			}}
-			if(neu.size()>5){
-			if(array.get(i).get(2).equals(neu.get(neu.size()-6).toString())){
-					neu2.set(5, array.get(i));
-			}	}		
-			if(neu.size()>6){
-			if(array.get(i).get(2).equals(neu.get(neu.size()-7).toString())){
-					neu2.set(6, array.get(i));
-			}}			
-			if(neu.size()>7){
-			if(array.get(i).get(2).equals(neu.get(neu.size()-8).toString())){
-					neu2.set(7, array.get(i));
-			}}			
-			if(neu.size()>8){
-			if(array.get(i).get(2).equals(neu.get(neu.size()-9).toString())){
-					neu2.set(8, array.get(i));
-			}}
-			if(neu.size()>9){
-			if(array.get(i).get(2).equals(neu.get(neu.size()-10).toString())){
-					neu2.set(9, array.get(i));
-			}}
-		}
-		return neu2;
-	}
 	
 	public void readLine(FileReader file, List textFrench2){
 		try {
@@ -285,7 +195,7 @@ public class TextProcessing {
 		}
 	}
 	
-	public void sortWords(List<ArrayList<String>> text, List<String> wörter){
+	public void sortWords(List<ArrayList<String>> text, List<String> wörter, List<String> textListe){
 		wörter.add(0, text.get(0).get(0));
 		int worte=0;
 		
@@ -293,6 +203,7 @@ public class TextProcessing {
 			//System.out.println("a="+a);
 			for(int b=0; b<text.get(a).size(); b++){
 				//System.out.println("b="+ b);
+				textListe.add(text.get(a).get(b));
 					if(!(wörter.contains(text.get(a).get(b)))){
 					wörter.add(worte, text.get(a).get(b));
 					worte++;

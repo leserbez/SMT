@@ -114,7 +114,7 @@ public class TextProcessing {
 			ausgabe = new File(url.getPath());
 			FileInputStream fis = new FileInputStream(ausgabe);
 			InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF8"));
-			LookUpSentence look = new LookUpSentence(ausgabeList);
+			LookUpSentence look = new LookUpSentence(ausgabeList, wörterListeF);
 			look.lookUp(isr, ausgabe);
 		}
 		//System.out.println(wörterListeF.get(0).get(0));

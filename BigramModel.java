@@ -21,14 +21,16 @@ public class BigramModel {
 	}
 	
 	public void train(){
+		System.out.println(wörter);
 		for(int i=0; i<einfachWörter.size(); i++){
 			for(int a=0; a<einfachWörter.size(); a++){
-				if(trainWord(einfachWörter.get(i), einfachWörter.get(a))>0.1){
+				Float f = trainWord(einfachWörter.get(i), einfachWörter.get(a));
+				if(f>0.01){
 					
 					result.add(zähler, new ArrayList());
 					result.get(zähler).add(i+"");
 					result.get(zähler).add(a+"");
-					result.get(zähler).add(trainWord(wörter.get(i), wörter.get(a))+"");
+					result.get(zähler).add(f.toString());
 					zähler++;
 					System.out.println(result.get(zähler-1));
 				}
@@ -61,8 +63,12 @@ public class BigramModel {
 			}
 		}
 		factor=zählerXY;
+		
 		factor=factor/zählerX;
+		
 		return factor;
 	}
+	
+
 
 }

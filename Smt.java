@@ -13,10 +13,10 @@ public class Smt {
 	
 	public static void main(String[] args) throws IOException {
 		
-		textname =args[0];
-		a =args[1];
-		b =args[2];
-		option =args[3];
+		textname ="ausgabe";//args[0];
+		a ="en";//args[1];
+		b ="de";//args[2];
+		option ="lookupSentence";//args[3];
 		
 		TextProcessing process = new TextProcessing(textname, a, b, option);
 	
